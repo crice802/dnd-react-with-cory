@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ApiService from "../../services/ApiService.js"
+import { Link } from "react-router-dom";
 
 
 const ClassList = () => {
-const [classes, setClasses] = useState(['Paladin', 'Bard', "Rouge"])
+const [classes, setClasses] = useState([])
+
+useEffect(()=> {
+    const fetchClassList = async () => {
+    const classdata = await ApiService.getClassList()
+    console.log(classdata)
+    setClasses(classdata.results)
+    }
+    fetchClassList()
+},[])
 
     return ( 
         <div>
@@ -13,14 +24,19 @@ const [classes, setClasses] = useState(['Paladin', 'Bard', "Rouge"])
 						* each with a div containing an image and a name 
 					*/}
                     {classes.map(classTitle => 
-                        <div className="class-div" key={classTitle}>
+                    <Link 
+                    key={classTitle.index} 
+                    state={{ classTitle }}
+                    to='/class'>
+                        <div className="class-div" >
                             <img
                             style={{ width: "100px", height: "100px" }}
-                            src={`/images/${classTitle}.svg`}
+                            src={`/images/${classTitle.name}.svg`}
                             alt="class-logo"
                             />
-                            {classTitle}
+                            {classTitle.name}
                             </div>
+                    </Link>
                         )}
             </div>
         </div>
