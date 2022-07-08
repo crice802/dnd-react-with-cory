@@ -26,6 +26,7 @@ useEffect(()=> {
                     {classes.map(classTitle => 
                     <Link 
                     key={classTitle.index} 
+                    
                     state={{ classTitle }}
                     to='/class'>
                         <div className="class-div" >
